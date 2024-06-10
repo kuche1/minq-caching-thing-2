@@ -97,6 +97,84 @@ void file_write(const string & path, const string & data){
     file << data;
 }
 
+string home_dir(){
+
+    char * home_dir = getenv("HOME");
+
+    if(home_dir == nullptr){
+        ERR("Could not determine home directory");
+    }
+
+    return home_dir;
+
+    //// this doesnt work with `-static`
+    // struct passwd * pw = getpwuid(getuid());
+    // if (pw == nullptr) {
+    //     throw runtime_error("Unable to determine home directory.");
+    // }
+    // return string(pw->pw_dir);
+}
+
+//////////
+/////////////
+//////////////// settings
+/////////////
+//////////
+
+/////// processing-related
+
+// compressed file size: 82M (/dev/urandom)
+// the more you reduce the chunk size, the more time it takes
+// each "key" will be of size CHUNK bytes
+// TODO just CHUNK is a really bad name
+
+// #define CHUNK 131072
+// keys folder size 85M
+// pointer file size 11K
+
+// #define CHUNK 65536
+// keys folder size 87M
+// pointer file size 22K
+
+// #define CHUNK 32768
+// keys folder size 92M
+// pointer file size 44K
+
+// #define CHUNK 16384
+// keys folder size 103M
+// pointer file size 87K
+
+#define CHUNK 8192
+// keys folder size 123M
+// pointer file size 174K
+
+// #define CHUNK 4096
+// keys folder size 165M
+// pointer file size 347K
+
+// #define CHUNK 2048
+// keys folder size 329M
+// pointer file size 693K
+
+// #define CHUNK 1024
+// keys folder size 658M
+// pointer file size 1.4M
+
+// #define CHUNK 512
+// keys folder size 1.3G
+// pointer file size 2.8M
+
+// #define CHUNK 256
+// keys folder size 2.7G
+// pointer file size 5.5M
+
+/////// path-related
+
+string HASH_ENTRY_FOLDER_ROOT = home_dir() + "/.cache/minq-caching-thing-2/" + to_string(CHUNK);
+// TODO `/var/tmp` is inappropriate
+
+string HASH_ENTRY_NAME_DATA = "data";
+
 //////////
 /////////////
 //////////////// specialised, level0
@@ -113,10 +191,6 @@ array<uint64_t, 2> calc_hash(uint8_t seed, const string & data){
 //////////////// specialised, level1
 /////////////
 //////////
-
-#define HASH_ENTRY_FOLDER_ROOT "/var/tmp/minq-caching-thing-2" // TODO `/var/tmp` is inappropriate
-
-#define HASH_ENTRY_NAME_DATA "data"
 
 string hash_entry_name(uint8_t seed, const array<uint64_t, 2> & hash){
     ostringstream name;
@@ -231,49 +305,6 @@ string piece_load(uint8_t seed, const array<uint64_t, 2> & hash){
 //////////////// specialised, level3
 /////////////
 //////////
-
-// compressed file size: 82M (/dev/urandom)
-// info - the more you reduce the chunk size, the more time it takes
-
-// #define CHUNK 131072
-// keys folder size 85M
-// pointer file size 11K
-
-// #define CHUNK 65536
-// keys folder size 87M
-// pointer file size 22K
-
-// #define CHUNK 32768
-// keys folder size 92M
-// pointer file size 44K
-
-// #define CHUNK 16384
-// keys folder size 103M
-// pointer file size 87K
-
-// #define CHUNK 8192
-// keys folder size 123M
-// pointer file size 174K
-
-#define CHUNK 4096
-// keys folder size 165M
-// pointer file size 347K
-
-// #define CHUNK 2048
-// keys folder size 329M
-// pointer file size 693K
-
-// #define CHUNK 1024
-// keys folder size 658M
-// pointer file size 1.4M
-
-// #define CHUNK 512
-// keys folder size 1.3G
-// pointer file size 2.8M
-
-// #define CHUNK 256
-// keys folder size 2.7G
-// pointer file size 5.5M
 
 void generate_pointer_from_file(const string & path_source, const string & path_result){
 
@@ -400,19 +431,95 @@ void test_save_load_using_pointers(){
     ASSERT(contents == file_read(file_deref));
 }
 
-//////////
-/////////////
-//////////////// main
-/////////////
-//////////
-
-int main(){
+void test_all(){
     cout << "running tests..." << endl;
     test_basic_calc_hash();
     test_basic_save();
     test_save_load();
     test_save_load_using_pointers();
     cout << "all tests completed!" << endl;
+}
+
+//////////
+/////////////
+//////////////// main
+/////////////
+//////////
+
+#define FLAG_ACTION_SAVE "save"
+#define FLAG_ACTION_LOAD "load"
+
+int main(int argc, char * * argv){
+
+    argc -= 1;
+    argv += 1;
+
+    if(argc <= 0){
+        cout << "Insufficient command line arguments: you must specify `" << FLAG_ACTION_SAVE << "` or `" << FLAG_ACTION_LOAD << "`" << endl;
+        exit(1);
+    }
+
+    string flag_action = argv[0];
+    argc -= 1;
+    argv += 1;
+
+    bool file0_fail = true;
+    string file0;
+
+    if(argc > 0){
+        file0_fail = false;
+        file0 = argv[0];
+        argc -= 1;
+        argv += 1;
+    }
+
+    bool file1_fail = true;
+    string file1;
+
+    if(argc > 0){
+        file1_fail = false;
+        file1 = argv[0];
+        argc -= 1;
+        argv += 1;
+    }
+
+    if(argc > 0){
+        cout << "Too many arguments supplied" << endl;
+        exit(1);
+    }
+
+    if(flag_action == FLAG_ACTION_SAVE){
+        
+        if(file0_fail){
+            cout << "You need to specify the file that you want to save" << endl;
+            exit(1);
+        }
+
+        if(file1_fail){
+            cout << "You need to specify the new pointer file" << endl;
+            exit(1);
+        }
+
+        generate_pointer_from_file(file0, file1);
+
+    }else if(flag_action == FLAG_ACTION_LOAD){
+        
+        if(file0_fail){
+            cout << "You need to specify the file that will be used to reconstruct the original data" << endl;
+            exit(1);
+        }
+
+        if(file1_fail){
+            cout << "You need to specify where the reconstructed data is going to be put" << endl;
+            exit(1);
+        }
+
+        generate_file_from_pointer(file0, file1);
+
+    }else{
+        cout << "Invalid flag `" << flag_action << "`; must be either `" << FLAG_ACTION_SAVE << "` or `" << FLAG_ACTION_LOAD << "`" << endl;
+        exit(1);
+    }
 
     return 0;
 }

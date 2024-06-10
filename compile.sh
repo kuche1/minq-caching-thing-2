@@ -4,6 +4,8 @@ set -euo pipefail
 
 HERE=$(dirname -- "$BASH_SOURCE")
 
+clear
+
 # compile library
 
 "$HERE/mmh3/compile.sh"
@@ -19,7 +21,5 @@ FLAGS_MISC='-static -Ofast'
 # -Ofast
 
 FLAGS="$FLAGS_STANDARD $FLAGS_STRICT $FLAGS_MISC"
-
-clear
 
 g++ $FLAGS -o "$HERE/minq-caching-thing-2" "$HERE/minq-caching-thing-2.cpp" "$HERE/mmh3/MurmurHash3.o"
