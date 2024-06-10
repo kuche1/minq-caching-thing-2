@@ -53,7 +53,7 @@ namespace fs = std::filesystem;
 }
 
 // TODO think if it makes sense for this to be `is_folder`, or `exists`
-bool is_folder(string path){
+bool is_folder(const string & path){
     // https://stackoverflow.com/questions/18100097/portable-way-to-check-if-directory-exists-windows-linux-c
 
     DIR * dir = opendir(path.c_str());
@@ -72,16 +72,23 @@ bool is_folder(string path){
     UNREACHABLE();
 }
 
-string file_read(string path){
+string file_read(const string & path){
     ifstream file;
     file.open(path);
-
     ASSERT(file.is_open());
 
     stringstream buffer;
     buffer << file.rdbuf();
 
     return buffer.str();
+}
+
+void file_write(const string & path, const string & data){
+    ofstream file;
+    file.open(path);
+    ASSERT(file.is_open());
+
+    file << data;
 }
 
 //////////
@@ -373,10 +380,20 @@ void test_save_load(){
 }
 
 void test_save_load_using_pointers(){
-    // TODO create file
-    generate_pointer_from_file("/tmp/test123", "/tmp/test123-p");
-    generate_file_from_pointer("/tmp/test123-p", "/tmp/test123-p-d");
-    // TODO check file contents
+    
+    string file_source = "/tmp/test123";
+    string file_ptr = file_source + "-p";
+    string file_deref = file_ptr + "-d";
+    string contents = "adfc4wagvtsdyebzy5e\ntesay5eztfetg5esyg\nsefy5sru64s7y54se";
+
+    file_write(file_source, contents);
+    
+    generate_pointer_from_file(file_source, file_ptr);
+    
+    generate_file_from_pointer(file_ptr, file_deref);
+    
+    ASSERT(file_read(file_source) == contents);
+    ASSERT(contents == file_read(file_deref));
 }
 
 //////////
