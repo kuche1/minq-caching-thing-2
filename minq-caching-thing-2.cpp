@@ -1,7 +1,13 @@
 
-// TOD1
+// TOD0
+//
+// make it not architecture specific (because of the endianness)
+// search for TOD0-endianness
+
+// BAD IDEAS
 //
 // perhaps we could re-calculate the hashes at runtime
+// would take too much time
 
 //////////
 /////////////
@@ -296,8 +302,7 @@ void generate_pointer_from_file(const string & path_source, const string & path_
         auto [seed, hash] = piece_save(buffer);
         string name = hash_entry_name(seed, hash);
 
-        // TODO the endianness kinds fucks shit up here
-        // this is fine if you are NOT going to swap between little/big endian arch
+        // TOD0-endianness
         file_out.write(reinterpret_cast<char*>(&seed), sizeof(seed));
         file_out.write(reinterpret_cast<char*>(&hash[0]), sizeof(hash[0]));
         file_out.write(reinterpret_cast<char*>(&hash[1]), sizeof(hash[1]));
@@ -323,8 +328,7 @@ void generate_file_from_pointer(const string & path_pointer, const string & path
         uint8_t seed;
         array<uint64_t, 2> hash;
 
-        // TODO the endianness kinds fucks shit up here
-        // this is fine if you are NOT going to swap between little/big endian arch
+        // TOD0-endianness
         file_in.read(reinterpret_cast<char*>(&seed), sizeof(seed));
         file_in.read(reinterpret_cast<char*>(&hash[0]), sizeof(hash[0]));
         file_in.read(reinterpret_cast<char*>(&hash[1]), sizeof(hash[1]));
