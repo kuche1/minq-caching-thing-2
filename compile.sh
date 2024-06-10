@@ -22,4 +22,4 @@ FLAGS_MISC='-static -Ofast'
 
 FLAGS="$FLAGS_STANDARD $FLAGS_STRICT $FLAGS_MISC"
 
-g++ $FLAGS -o "$HERE/minq-caching-thing-2" "$HERE/minq-caching-thing-2.cpp" "$HERE/mmh3/MurmurHash3.o"
+g++ $FLAGS -o "$HERE/mct2-file" "$HERE/mct2-file.cpp" "$HERE/mmh3/MurmurHash3.o"
