@@ -320,7 +320,9 @@ void generate_pointer_from_file(const string & path_source, const string & path_
 
     ofstream file_out;
     file_out.open(path_result);
-    ASSERT(file_out.is_open());
+    if(!file_out.is_open()){
+        ERR("Could not open file for writing: " << path_result);
+    }
 
     while(true){
 
