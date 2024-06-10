@@ -1,4 +1,8 @@
 
+// TODO
+//
+// make it also work with directories
+
 // TOD0
 //
 // make it not architecture specific (because of the endianness)
