@@ -14,7 +14,7 @@ clear
 
 FLAGS_STANDARD='-std=c++23'
 
-FLAGS_STRICT='-Werror -Wextra -Wall -pedantic -Wfatal-errors -Wshadow'
+FLAGS_STRICT='-Werror -Wextra -Wall -pedantic -Wfatal-errors -Wshadow -Wconversion'
 
 FLAGS_MISC='-static -Ofast'
 # -static
