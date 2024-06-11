@@ -1,10 +1,4 @@
 
-//////////
-/////////////
-//////////////// specialised, level2
-/////////////
-//////////
-
 pair<uint8_t, array<uint64_t, 2>> piece_save(const string & data){
 
     uint8_t seed = 0;
