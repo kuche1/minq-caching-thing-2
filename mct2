@@ -10,16 +10,16 @@ def term(cmd:list[str]):
 # fncs that work on files
 
 def pointer_create_file(in_source:str, out_pointer:str):
-    os.makedirs(os.path.dirname(out_pointer), exist_ok=True)
     term(['mct2-file', 'save', in_source, out_pointer])
 
 def pointer_restore_file(in_pointer:str, out_data:str):
-    os.makedirs(os.path.dirname(out_data), exist_ok=True)
     term(['mct2-file', 'load', in_pointer, out_data])
 
 # fncs that work on files and folders
 
 def pointer_create(in_source:str, out_pointer:str):
+
+    assert os.path.exists(in_source)
 
     if os.path.isfile(in_source):
         pointer_create_file(in_source, out_pointer)
@@ -35,6 +35,8 @@ def pointer_create(in_source:str, out_pointer:str):
             pointer_create(path_source, path_dest)
 
 def pointer_restore(in_pointer:str, out_data:str):
+
+    assert os.path.exists(in_pointer)
 
     if os.path.isfile(in_pointer):
         pointer_restore_file(in_pointer, out_data)
