@@ -75,6 +75,12 @@ int main(int argc, char * * argv){
 
         generate_file_from_pointer(file0, file1);
 
+    }else if(flag_action == "info"){
+
+        cout << "THIS IS A DEBUG FLAG, DO NOT USE IT" << endl;
+        cout << "DATA_PER_PEICE: " << DATA_PER_PEICE << endl;
+        exit(1);
+
     }else{
         cout << "Invalid flag `" << flag_action << "`; must be either `" << FLAG_ACTION_SAVE << "` or `" << FLAG_ACTION_LOAD << "`" << endl;
         exit(1);
