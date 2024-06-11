@@ -11,6 +11,19 @@
 // but the change of coming across a duplicate piece lowers, and the faster we are going to come across a collision
 
 ////
+/////// test 2
+////
+
+// source file size: 2748217 (/dev/random)
+
+// chunk: 65536 (1024 * 64)
+// save time: 4.47 secs
+// load time: 2.35 secs
+// db size: 2839985
+// ptr size: 721
+// space loss: 0.0336541837853415 *100 %
+
+////
 /////// test 1
 ////
 
