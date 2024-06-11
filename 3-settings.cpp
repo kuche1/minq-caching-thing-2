@@ -44,8 +44,6 @@
 // pointer size: 4,5M
 // total space loss: 0.2292702414772727 *100 %
 
-// chunk 
-
 ////
 /////// test 0
 ////
