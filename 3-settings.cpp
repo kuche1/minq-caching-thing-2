@@ -1,7 +1,7 @@
 
 //////////
 /////////////
-//////////////// processing-related
+//////////////// chunk
 /////////////
 //////////
 
@@ -106,10 +106,18 @@
 
 //////////
 /////////////
-//////////////// path-related
+//////////////// hash
 /////////////
 //////////
 
-string HASH_ENTRY_FOLDER_ROOT = home_dir() + "/.cache/minq-caching-thing-2/" + to_string(DATA_PER_PEICE);
+#define HASH "MurmurHash3_x64_128"
+
+//////////
+/////////////
+//////////////// path
+/////////////
+//////////
+
+string HASH_ENTRY_FOLDER_ROOT = home_dir() + "/.cache/minq-caching-thing-2/" + HASH + "/" + to_string(DATA_PER_PEICE);
 
 string HASH_ENTRY_NAME_DATA = "data";
