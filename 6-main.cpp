@@ -37,7 +37,7 @@ int main(int argc, char * * argv){
         }else if(flag_action == "info"){
 
             cerr << "THIS IS A DEBUG FLAG, DO NOT USE IT" << endl;
-            cerr << "DATA_PER_PEICE: " << DATA_PER_PEICE << endl;
+            cerr << "DATA_PER_PIECE: " << DATA_PER_PIECE << endl;
             exit(1);
 
         }else{

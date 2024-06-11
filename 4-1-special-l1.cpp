@@ -23,32 +23,32 @@ string hash_entry_name(uint8_t seed, const array<uint64_t, 2> & hash){
     return name.str();
 }
 
-string hash_entry_root(uint8_t seed, const array<uint64_t, 2> & hash){
+string hash_entry_root(uint8_t seed, const array<uint64_t, 2> & hash, uint64_t data_per_piece){
 
     ostringstream path;
 
-    path << HASH_ENTRY_FOLDER_ROOT << '/' << hash_entry_name(seed, hash);
+    path << HASH_ENTRY_FOLDER_ROOT << '/' << data_per_piece << '/' << hash_entry_name(seed, hash);
 
     return path.str();
 
 }
 
-bool hash_entry_exists(uint8_t seed, const array<uint64_t, 2> & hash){
+bool hash_entry_exists(uint8_t seed, const array<uint64_t, 2> & hash, uint64_t data_per_piece){
 
-    string root = hash_entry_root(seed, hash);
+    string root = hash_entry_root(seed, hash, data_per_piece);
 
     return fs::exists(root);
 }
 
-string hash_entry_data(uint8_t seed, const array<uint64_t, 2> & hash){
-    string root = hash_entry_root(seed, hash);
+string hash_entry_data(uint8_t seed, const array<uint64_t, 2> & hash, uint64_t data_per_piece){
+    string root = hash_entry_root(seed, hash, data_per_piece);
     string path = root + '/' + HASH_ENTRY_NAME_DATA;
     return file_read(path);
 }
 
-bool hash_entry_content_differs(uint8_t seed, const array<uint64_t, 2> & hash, const string & data){
+bool hash_entry_content_differs(uint8_t seed, const array<uint64_t, 2> & hash, uint64_t data_per_piece, const string & data){
 
-    string root = hash_entry_root(seed, hash);
+    string root = hash_entry_root(seed, hash, data_per_piece);
 
     ASSERT(fs::exists(root));
 
@@ -57,9 +57,9 @@ bool hash_entry_content_differs(uint8_t seed, const array<uint64_t, 2> & hash, c
     return file_read(path_data) != data;
 }
 
-void hash_entry_create(uint8_t seed, const array<uint64_t, 2> & hash, const string & data){
+void hash_entry_create(uint8_t seed, const array<uint64_t, 2> & hash, uint64_t data_per_piece, const string & data){
 
-    string root = hash_entry_root(seed, hash);
+    string root = hash_entry_root(seed, hash, data_per_piece);
 
     ASSERT(!fs::exists(root));
 

@@ -1,4 +1,6 @@
 
+// TODO pass DATA_PER_PIECE as argument
+
 pair<uint8_t, array<uint64_t, 2>> piece_save(const string & data){
 
     uint8_t seed = 0;
@@ -7,8 +9,8 @@ pair<uint8_t, array<uint64_t, 2>> piece_save(const string & data){
 
         array<uint64_t, 2> hash = calc_hash(seed, data);
 
-        if(hash_entry_exists(seed, hash)){
-            if(hash_entry_content_differs(seed, hash, data)){
+        if(hash_entry_exists(seed, hash, DATA_PER_PIECE)){
+            if(hash_entry_content_differs(seed, hash, DATA_PER_PIECE, data)){
                 seed += 1;
                 ASSERT(seed > 0); // too many collisions, the easiest and probably the best fix would be: increase `seed` from uint8_t to uint16_t
                 continue;
@@ -17,7 +19,7 @@ pair<uint8_t, array<uint64_t, 2>> piece_save(const string & data){
             }
         }
 
-        hash_entry_create(seed, hash, data);
+        hash_entry_create(seed, hash, DATA_PER_PIECE, data);
 
         return {seed, hash};
     }
@@ -25,6 +27,6 @@ pair<uint8_t, array<uint64_t, 2>> piece_save(const string & data){
 
 string piece_load(uint8_t seed, const array<uint64_t, 2> & hash){
 
-    return hash_entry_data(seed, hash);
+    return hash_entry_data(seed, hash, DATA_PER_PIECE);
 
 }

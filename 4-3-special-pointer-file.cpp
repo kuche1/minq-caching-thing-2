@@ -11,8 +11,8 @@ void generate_pointer_from_file(const string & path_source, const string & path_
 
     while(true){
 
-        string buffer(DATA_PER_PEICE, '\0');
-        file_in.read(&buffer[0], DATA_PER_PEICE);
+        string buffer(DATA_PER_PIECE, '\0');
+        file_in.read(&buffer[0], DATA_PER_PIECE);
 
         streamsize bytes_read = file_in.gcount();
         if(bytes_read <= 0){
