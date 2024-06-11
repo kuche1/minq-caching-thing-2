@@ -71,7 +71,7 @@ void hash_entry_create(uint8_t seed, const array<uint64_t, 2> & hash, const stri
     string path_data = root + '/' + HASH_ENTRY_NAME_DATA;
 
     ofstream file_data;
-    file_data.open(path_data);
+    file_data.open(path_data, ios::binary);
     ASSERT(file_data.is_open());
 
     file_data << data;

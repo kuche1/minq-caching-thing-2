@@ -47,7 +47,7 @@ bool is_folder(const string & path){
 string file_read(const string & path){
     // { // simpler but less effecient way of reading
     //     ifstream file;
-    //     file.open(path);
+    //     file.open(path, ios::binary);
     //     ASSERT(file.is_open());
 
     //     stringstream buffer;
@@ -56,8 +56,8 @@ string file_read(const string & path){
     //     return buffer.str();
     // }
 
-    ifstream file; // TODO open as binary, like so (so that new lines dont get translated) (same goes for all file opening): std::ifstream file(path, std::ios::binary);
-    file.open(path);
+    ifstream file;
+    file.open(path, ios::binary);
     ASSERT(file.is_open());
 
     file.seekg(0, ios::end);
@@ -73,7 +73,7 @@ string file_read(const string & path){
 
 void file_write(const string & path, const string & data){
     ofstream file;
-    file.open(path);
+    file.open(path, ios::binary);
     ASSERT(file.is_open());
 
     file << data;
@@ -106,7 +106,7 @@ ofstream file_open_write_mkdirs(string path){
 
     ofstream file;
 
-    file.open(path);
+    file.open(path, ios::binary);
 
     if(!file.is_open()){
         
@@ -117,7 +117,7 @@ ofstream file_open_write_mkdirs(string path){
             ERR("Could not open file for writing `" << path << "` and could not create parent directory `" << parent_folder << "`: " << ec.message());
         }
 
-        file.open(path);
+        file.open(path, ios::binary);
 
         if(!file.is_open()){
             ERR("Created parent directory `" << parent_folder << "` but could not open file for writing `" << path << "`");

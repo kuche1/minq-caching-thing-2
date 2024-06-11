@@ -8,7 +8,7 @@
 void generate_pointer_from_file(const string & path_source, const string & path_result){
 
     ifstream file_in;
-    file_in.open(path_source);
+    file_in.open(path_source, ios::binary);
     if(!file_in.is_open()){
         ERR("Could not open file for reading: " << path_source);
     }
@@ -42,7 +42,7 @@ void generate_pointer_from_file(const string & path_source, const string & path_
 void generate_file_from_pointer(const string & path_pointer, const string & path_result){
 
     ifstream file_in;
-    file_in.open(path_pointer);
+    file_in.open(path_pointer, ios::binary);
     if(!file_in.is_open()){
         ERR("Could not open pointer file for reading: " << path_pointer);
     }
