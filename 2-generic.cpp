@@ -80,3 +80,33 @@ string home_dir(){
     // }
     // return string(pw->pw_dir);
 }
+
+string dirname(string path){
+    fs::path path_as_path(path);
+    return path_as_path.parent_path().string();
+}
+
+ofstream file_open_write_mkdirs(string path){
+
+    ofstream file;
+
+    file.open(path);
+
+    if(!file.is_open()){
+        
+        string parent_folder = dirname(path);
+
+        error_code ec;
+        if(!fs::create_directories(parent_folder, ec)){
+            ERR("Could not open file for writing `" << path << "` and could not create parent directory `" << parent_folder << "`: " << ec.message());
+        }
+
+        file.open(path);
+
+        if(!file.is_open()){
+            ERR("Created parent directory `" << parent_folder << "` but could not open file for writing `" << path << "`");
+        }
+    }
+
+    return file;
+}

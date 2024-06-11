@@ -13,11 +13,7 @@ void generate_pointer_from_file(const string & path_source, const string & path_
         ERR("Could not open file for reading: " << path_source);
     }
 
-    ofstream file_out;
-    file_out.open(path_result);
-    if(!file_out.is_open()){
-        ERR("Could not open file for writing: " << path_result);
-    }
+    ofstream file_out = file_open_write_mkdirs(path_result);
 
     while(true){
 
@@ -51,9 +47,7 @@ void generate_file_from_pointer(const string & path_pointer, const string & path
         ERR("Could not open pointer file for reading: " << path_pointer);
     }
 
-    ofstream file_out;
-    file_out.open(path_result);
-    ASSERT(file_out.is_open());
+    ofstream file_out = file_open_write_mkdirs(path_result);
 
     while(true){
 
