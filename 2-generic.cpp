@@ -24,25 +24,24 @@
     } \
 }
 
-// TODO think if it makes sense for this to be `is_folder`, or `exists`
-bool is_folder(const string & path){
-    // https://stackoverflow.com/questions/18100097/portable-way-to-check-if-directory-exists-windows-linux-c
+// bool is_folder(const string & path){
+//     // https://stackoverflow.com/questions/18100097/portable-way-to-check-if-directory-exists-windows-linux-c
 
-    DIR * dir = opendir(path.c_str());
+//     DIR * dir = opendir(path.c_str());
 
-    if(dir){
-        closedir(dir);
-        return true;
-    }
+//     if(dir){
+//         closedir(dir);
+//         return true;
+//     }
 
-    if(ENOENT == errno){
-        // directory doesn't exist
-        return false;
-    }
+//     if(ENOENT == errno){
+//         // directory doesn't exist
+//         return false;
+//     }
 
-    // something else went wrong
-    UNREACHABLE();
-}
+//     // something else went wrong
+//     UNREACHABLE();
+// }
 
 string file_read(const string & path){
 

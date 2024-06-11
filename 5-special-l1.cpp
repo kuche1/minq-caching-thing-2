@@ -37,10 +37,7 @@ bool hash_entry_exists(uint8_t seed, const array<uint64_t, 2> & hash){
 
     string root = hash_entry_root(seed, hash);
 
-    // TODO add an assert that makes sure that a file with the
-    // same name doesn't exist
-
-    return is_folder(root);
+    return fs::exists(root);
 }
 
 string hash_entry_data(uint8_t seed, const array<uint64_t, 2> & hash){
@@ -53,7 +50,7 @@ bool hash_entry_content_differs(uint8_t seed, const array<uint64_t, 2> & hash, c
 
     string root = hash_entry_root(seed, hash);
 
-    ASSERT(is_folder(root));
+    ASSERT(fs::exists(root));
 
     string path_data = root + '/' + HASH_ENTRY_NAME_DATA;
 
@@ -64,7 +61,7 @@ void hash_entry_create(uint8_t seed, const array<uint64_t, 2> & hash, const stri
 
     string root = hash_entry_root(seed, hash);
 
-    ASSERT(!is_folder(root)); // TODO would be better if this is `exists` instead
+    ASSERT(!fs::exists(root));
 
     fs::create_directories(root);
 
