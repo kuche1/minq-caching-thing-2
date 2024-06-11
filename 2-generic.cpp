@@ -45,14 +45,30 @@ bool is_folder(const string & path){
 }
 
 string file_read(const string & path){
-    ifstream file;
+    // { // simpler but less effecient way of reading
+    //     ifstream file;
+    //     file.open(path);
+    //     ASSERT(file.is_open());
+
+    //     stringstream buffer;
+    //     buffer << file.rdbuf();
+
+    //     return buffer.str();
+    // }
+
+    ifstream file; // TODO open as binary, like so (so that new lines dont get translated) (same goes for all file opening): std::ifstream file(path, std::ios::binary);
     file.open(path);
     ASSERT(file.is_open());
 
-    stringstream buffer;
-    buffer << file.rdbuf();
+    file.seekg(0, ios::end);
+    size_t file_size = file.tellg();
+    file.seekg(0, ios::beg);
 
-    return buffer.str();
+    string file_content(file_size, '\0');
+
+    file.read(&file_content[0], file_size);
+
+    return file_content;
 }
 
 void file_write(const string & path, const string & data){
