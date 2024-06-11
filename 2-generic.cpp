@@ -45,16 +45,6 @@ bool is_folder(const string & path){
 }
 
 string file_read(const string & path){
-    // { // simpler but less effecient way of reading
-    //     ifstream file;
-    //     file.open(path, ios::binary);
-    //     ASSERT(file.is_open());
-
-    //     stringstream buffer;
-    //     buffer << file.rdbuf();
-
-    //     return buffer.str();
-    // }
 
     ifstream file;
     file.open(path, ios::binary);
@@ -69,6 +59,17 @@ string file_read(const string & path){
     file.read(&file_content[0], file_size);
 
     return file_content;
+
+    // { // simpler but less effecient way of reading
+    //     ifstream file;
+    //     file.open(path, ios::binary);
+    //     ASSERT(file.is_open());
+
+    //     stringstream buffer;
+    //     buffer << file.rdbuf();
+
+    //     return buffer.str();
+    // }
 }
 
 void file_write(const string & path, const string & data){
