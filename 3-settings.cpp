@@ -55,6 +55,5 @@
 /////// path-related
 
 string HASH_ENTRY_FOLDER_ROOT = home_dir() + "/.cache/minq-caching-thing-2/" + to_string(CHUNK);
-// TODO `/var/tmp` is inappropriate
 
 string HASH_ENTRY_NAME_DATA = "data";
